@@ -2,7 +2,9 @@
   "name": "tajiri",
   "version": "1.0.0",
   "description": "A Node.js CLI app",
-  "bin": "./index.js",
+  "bin": {
+    "tajiri": "./index.js"
+  },
   "type": "module",
   "scripts": {
     "start": "node index.js"
