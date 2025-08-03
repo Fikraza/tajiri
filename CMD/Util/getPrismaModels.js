@@ -1,56 +1,35 @@
 import fs from "fs";
 import path from "path";
 import getConfig from "./getConfig.js";
+import dictionary from "./prisma_dict.js";
 
-let dictionary = {
-  String: {
-    transform: ["str"],
-    validation: {
-      str: true,
-    },
-  },
-  Int: {
-    transform: ["int"],
-    validation: {
-      number: true,
-    },
-  },
-  BigInt: {
-    transform: ["int"],
-    validation: {
-      number: true,
-    },
-  },
-  Float: {
-    transform: ["float"],
-    validation: {
-      number: true,
-    },
-  },
-  Decimal: {
-    transform: [],
-    validation: {
-      number: true,
-    },
-  },
-  Boolean: {
-    transform: [],
-    validation: {
-      bool: true,
-    },
-  },
-  DateTime: {
-    transform: ["dateTime"],
-    validation: {
-      dateTime: true,
-    },
-  },
-  Bytes: {
-    transform: [],
-    validation: {},
-  },
-  Json: { transform: [], validation: {} },
-};
+function parseRelation(line, modelName) {
+  try {
+    const regex =
+      /^\s*(\w+)\s+(\w+)\??\s+@relation(?:\("([^"]+)"\))?\s*\(([^)]*)\)/;
+    const match = line.match(regex);
+    if (!match) return null;
+
+    const [, key, relatedModel, relationName, body] = match;
+
+    // Parse fields from the body
+    const fieldMatch = body.match(/fields:\s*\[([^\]]+)\]/);
+    const field = fieldMatch ? fieldMatch[1].trim().split(",")[0].trim() : null;
+
+    // If relatedModel is the same as modelName, it's likely a self-relation or pointing outward.
+    // Use modelName to determine the related model (other than self)
+    const actualRelatedModel = relatedModel === modelName ? key : relatedModel;
+
+    return {
+      key,
+      field: field || "",
+      model: actualRelatedModel,
+      to_include: relationName || actualRelatedModel,
+    };
+  } catch (e) {
+    return null;
+  }
+}
 
 async function getPrismaModels() {
   try {
@@ -77,6 +56,8 @@ async function getPrismaModels() {
     let include = null;
     let modelName = null;
 
+    let allRelations = {};
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]?.trim()?.replace(/\s+/g, " ");
 
@@ -100,26 +81,28 @@ async function getPrismaModels() {
         continue;
       }
 
-      if (foundModel && modelName && model && include) {
-        if (line?.includes("}")) {
-          models[modelName] = {
-            model: structuredClone(model),
-            include: structuredClone(include),
-          };
+      if (line?.includes("}")) {
+        models[modelName] = {
+          model: structuredClone(model),
+          include: structuredClone(include),
+        };
 
-          foundModel = false;
-          modelName = null;
-          model = null;
-          include = null;
-          continue;
-        }
+        foundModel = false;
+        modelName = null;
+        model = null;
+        include = null;
+        continue;
+      }
+
+      if (foundModel && modelName && model && include) {
         let lineArr = line?.split(" ");
+
         let notRequired = lineArr[1]?.includes("?");
         let pos1 = lineArr[0];
         let pos2 = lineArr[1]?.replace(/\?/g, "");
         let pos3 = lineArr[2]?.toLowerCase();
 
-        if (dictionary[pos2] || dictionary[pos2]?.includes("_enum")) {
+        if (dictionary[pos2] || pos2?.includes("_enum")) {
           model[pos1] = dictionary[pos2] || {};
           notRequired
             ? (model[pos1].required = false)
@@ -127,14 +110,24 @@ async function getPrismaModels() {
           pos3?.includes("unique")
             ? (model[pos1].validation.unique = true)
             : null;
+
           continue;
         }
 
         include[pos1] = true;
+
+        let relations = parseRelation(line, modelName);
+
+        if (relations) {
+          if (Array.isArray(allRelations[modelName])) {
+            allRelations[modelName].push(structuredClone(relations));
+            continue;
+          }
+          allRelations[modelName] = [structuredClone(relations)];
+        }
       }
     }
-
-    // console.log(models);
+    /// Relation failed
     return models;
   } catch (e) {
     console.log(e);

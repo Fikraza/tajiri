@@ -9,18 +9,32 @@ import GenFolderStructure from "../GenFolderStructure/index.js";
 
 import getConfigPath from "../Util/getConfigPath.js";
 
+import isModuleBased from "../Util/isModuleBased.js";
+
 async function Init() {
   const config = getConfigPath();
 
   let basePath = config?.base;
   let prismaPath = config?.prisma;
+  let type = config?.type;
 
-  if (basePath || prismaPath) {
+  if (basePath || prismaPath || type) {
     console.log(
       chalk.red(
         `❌ Initialization already done. Delete config file to reinitialize.`
       )
     );
+    return;
+  }
+
+  let moduleBase = isModuleBased();
+
+  if (moduleBase === null) {
+    console.log(chalk.red(`❌ Initialization fail.`));
+    console.log(
+      chalk.red(`❌ package.json folder not found in root directory`)
+    );
+
     return;
   }
 
@@ -46,6 +60,7 @@ async function Init() {
   console.log(chalk.grey("..............................."));
   console.log(chalk.grey("..............................."));
 
+  let cwd = process.cwd();
   let prismaFilePath = getPrismaFile(cwd);
 
   if (!prismaFilePath) {
@@ -77,6 +92,7 @@ async function Init() {
   const configJson = {
     base: `./${relativePath}`,
     prisma: prismaFilePath,
+    type: moduleBase,
     fieldSkip,
   };
 
