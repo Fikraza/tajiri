@@ -14,7 +14,7 @@ function getCurrentDirectory() {
   return __dirname;
 }
 
-async function GenMiddleWare() {
+async function GenScheme() {
   let baseDir = getCurrentDirectory();
   let cwd = process.cwd();
   let config = getConfig();
@@ -25,15 +25,13 @@ async function GenMiddleWare() {
   }
 
   const shouldGenerate = await confirm({
-    message: "Generate Middleware Auth and Error",
+    message: "Generate Scheme ?",
     default: true,
   });
 
   if (!shouldGenerate) {
-    console.log(chalk.yellow("Midlware generation skipped"));
-    console.log(
-      chalk.grey("To run this cmd again run: tajiri generate middleware")
-    );
+    console.log(chalk.yellow("Scheme Generation Skipped."));
+    console.log(chalk.gray("tajiri generate scheme"));
     return;
   }
 
@@ -41,8 +39,7 @@ async function GenMiddleWare() {
     baseDir,
     config?.type === "module" ? "modulejs" : "commonjs"
   );
-
-  let toDir = path.join(cwd, config.base);
+  let toDir = path.join(cwd, config.base, "Controller/Scheme");
 
   let copyResult = await copyDirContents(fromDir, toDir);
 
@@ -52,4 +49,4 @@ async function GenMiddleWare() {
   }
 }
 
-export default GenMiddleWare;
+export default GenScheme;

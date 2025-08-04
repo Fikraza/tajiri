@@ -14,7 +14,7 @@ function getCurrentDirectory() {
   return __dirname;
 }
 
-async function GenMiddleWare() {
+async function GenRoutes() {
   let baseDir = getCurrentDirectory();
   let cwd = process.cwd();
   let config = getConfig();
@@ -25,15 +25,13 @@ async function GenMiddleWare() {
   }
 
   const shouldGenerate = await confirm({
-    message: "Generate Middleware Auth and Error",
+    message: "Generate Routes ?",
     default: true,
   });
 
   if (!shouldGenerate) {
-    console.log(chalk.yellow("Midlware generation skipped"));
-    console.log(
-      chalk.grey("To run this cmd again run: tajiri generate middleware")
-    );
+    console.log(chalk.yellow("Route generation skipped"));
+    console.log(chalk.gray("tajiri generate route"));
     return;
   }
 
@@ -52,4 +50,4 @@ async function GenMiddleWare() {
   }
 }
 
-export default GenMiddleWare;
+export default GenRoutes;

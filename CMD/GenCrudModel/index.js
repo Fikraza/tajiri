@@ -35,21 +35,21 @@ async function genCrudModels() {
   let models = await getPrismaModels();
 
   // q1
-  const toOverite = await select({
-    message: "Choose folder structure type:",
-    choices: [
-      { name: "Skip Created (recommended)", value: false },
-      { name: "Overite existing", value: true },
-    ],
-  });
+  // const toOverite = await select({
+  //   message: "Choose folder structure type:",
+  //   choices: [
+  //     { name: "Skip Created (recommended)", value: false },
+  //     { name: "Overite existing", value: true },
+  //   ],
+  // });
 
-  const doPrompt = await select({
-    message: "Choose folder structure type:",
-    choices: [
-      { name: "No Prompt", value: false },
-      { name: "Get a prompt for each model", value: true },
-    ],
-  });
+  // const doPrompt = await select({
+  //   message: "Choose folder structure type:",
+  //   choices: [
+  //     { name: "No Prompt", value: false },
+  //     { name: "Get a prompt for each model", value: true },
+  //   ],
+  // });
 
   for (let folderArr of structureArray) {
     let folderPath = folderArr.join("/");
@@ -76,6 +76,12 @@ async function genCrudModels() {
       fuzzy: [],
       pg: [],
     };
+
+    let toSkip = Array.isArray(config.fieldSkip) ? config.fieldSkip : [];
+
+    for (let skip of toSkip) {
+      delete field[skip];
+    }
 
     ensureFolderExists(pathToCreate);
 

@@ -5,11 +5,22 @@ import { select, input, confirm } from "@inquirer/prompts";
 import chalk from "chalk";
 
 import getPrismaFile from "./../Util/getPrismaFilePath.js";
-import GenFolderStructure from "../GenFolderStructure/index.js";
 
 import getConfigPath from "../Util/getConfigPath.js";
 
 import isModuleBased from "../Util/isModuleBased.js";
+
+import GenFolderStructure from "../GenFolderStructure/index.js";
+
+import GenCrudModel from "./../GenCrudModel/index.js";
+
+import GenMiddleWare from "./../GenMiddleWare/index.js";
+
+import GenScheme from "../GenScheme/index.js";
+
+import GenRoutes from "../GenRoutes/index.js";
+
+import UpdateEnv from "../UpdateEnv/index.js";
 
 async function Init() {
   const config = getConfigPath();
@@ -100,6 +111,16 @@ async function Init() {
   console.log(chalk.green(`✅ tajiri.json config created.`));
 
   await GenFolderStructure();
+
+  await GenCrudModel();
+
+  await GenScheme();
+
+  await GenRoutes();
+
+  await GenMiddleWare();
+
+  await UpdateEnv();
 }
 
 export default Init;
