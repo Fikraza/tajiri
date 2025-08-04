@@ -16,6 +16,8 @@ import GenCrudModel from "./../GenCrudModel/index.js";
 
 import GenMiddleWare from "./../GenMiddleWare/index.js";
 
+import GenBase from "./../GenOther/index.js";
+
 import GenScheme from "../GenScheme/index.js";
 
 import GenRoutes from "../GenRoutes/index.js";
@@ -113,6 +115,8 @@ async function Init() {
   await GenFolderStructure();
 
   await GenCrudModel();
+
+  await GenBase();
 
   await GenScheme();
 
