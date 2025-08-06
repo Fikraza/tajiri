@@ -1,4 +1,5 @@
 const header = require("../header");
+const { default: getUrl } = require("./getUrl");
 
 function DeleteRequest({ modelName, item, field }) {
   let request = {
@@ -7,7 +8,7 @@ function DeleteRequest({ modelName, item, field }) {
       method: "DELETE",
       header,
       url: {
-        raw: `{{local}}/scheme/${modelName}`,
+        raw: getUrl(modelName),
         host: `{{local}}`,
         path: ["scheme", modelName],
         params: {

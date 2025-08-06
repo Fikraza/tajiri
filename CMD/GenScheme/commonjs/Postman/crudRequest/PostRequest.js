@@ -1,5 +1,7 @@
 const header = require("../header");
 
+const getUrl = require("./getUrl");
+
 function PostRequest({ modelName, item, field }) {
   let fieldKeys = Object.keys(field);
   let rawBody = {};
@@ -16,7 +18,7 @@ function PostRequest({ modelName, item, field }) {
       method: "POST",
       header,
       url: {
-        raw: `{{local}}/scheme/${modelName}`,
+        raw: getUrl(modelName),
         host: ["{{local}}"],
         path: ["scheme", modelName],
       },

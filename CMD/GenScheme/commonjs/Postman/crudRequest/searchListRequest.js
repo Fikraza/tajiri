@@ -1,4 +1,5 @@
 const header = require("../header");
+const { default: getUrl } = require("./getUrl");
 
 function searchListRequest({ modelName, methods, search }) {
   const item = [];
@@ -13,7 +14,7 @@ function searchListRequest({ modelName, methods, search }) {
       method: "GET",
       header,
       url: {
-        raw: `{{local}}/scheme/list/${modelName}`,
+        raw: getUrl(`list/${modelName}`),
         host: `{{local}}`,
         path: ["scheme", "list", modelName], // Only the host
       },
@@ -29,7 +30,7 @@ function searchListRequest({ modelName, methods, search }) {
         method: "GET",
         header,
         url: {
-          raw: `{{local}}/scheme/fuse-search/${modelName}`,
+          raw: getUrl(`fuse-search/${modelName}`),
           host: `{{local}}`,
           path: ["scheme", "fuse-search", modelName],
         },

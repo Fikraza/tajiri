@@ -1,4 +1,5 @@
 const header = require("../header");
+const getUrl = require("./getUrl");
 
 function PutRequest({ modelName, item, field }) {
   let fieldKeys = Object.keys(field);
@@ -13,7 +14,7 @@ function PutRequest({ modelName, item, field }) {
       method: "PUT",
       header,
       url: {
-        raw: `{{local}}/scheme/${modelName}`,
+        raw: getUrl(modelName),
         host: ["{{local}}"],
         path: ["scheme", modelName],
       },

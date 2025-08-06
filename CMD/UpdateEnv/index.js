@@ -12,6 +12,7 @@ function UpdateEnv() {
     "POSTMANWORKSPACE",
     "BEARER",
     "COUCHDBURL",
+    "TAJIRIBASEURL",
   ];
 
   let envContent = "";

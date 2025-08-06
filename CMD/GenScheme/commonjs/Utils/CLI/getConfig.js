@@ -5,7 +5,7 @@ const path = require("path");
 function getConfig() {
   const rootDir = process.cwd();
   // console.log(rootDir);
-  const configPath = path.join(rootDir, "cli.config.json");
+  const configPath = path.join(rootDir, "tajiri.json");
 
   if (!fs.existsSync(configPath)) {
     throw {

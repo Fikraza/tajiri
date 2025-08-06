@@ -1,5 +1,7 @@
 const header = require("../header");
 
+const getUrl = require("./getUrl");
+
 function getRequest({ modelName, item }) {
   let getById = {
     name: `ById ${modelName}`,
@@ -7,7 +9,7 @@ function getRequest({ modelName, item }) {
       method: "GET",
       header,
       url: {
-        raw: `{{local}}/scheme/${modelName}`,
+        raw: getUrl(modelName),
         host: `{{local}}`,
         path: ["scheme", modelName],
         params: {

@@ -1,4 +1,5 @@
 const header = require("../header");
+const getUrl = require("./getUrl");
 
 function PatchRequest({ modelName, item, field }) {
   let fieldKeys = Object.keys(field);
@@ -13,7 +14,7 @@ function PatchRequest({ modelName, item, field }) {
       method: "PATCH",
       header,
       url: {
-        raw: `{{local}}/scheme/${modelName}`,
+        raw: getUrl(modelName),
         host: ["{{local}}"],
         path: ["scheme", modelName],
       },

@@ -125,6 +125,29 @@ async function Init() {
   await GenMiddleWare();
 
   await UpdateEnv();
+
+  console.log(chalk.green("\n✅ Project initialized successfully!\n"));
+
+  console.log(chalk.blue("📦 To install the required dependencies, run:"));
+  console.log();
+  console.log(
+    chalk.cyan("npm install nano multer uuid html-pdf-node fuse.js csv-parser")
+  );
+  console.log();
+  console.log(chalk.gray("Or use yarn if preferred:"));
+  console.log(
+    chalk.cyan("yarn add nano multer uuid html-pdf-node fuse.js csv-parser")
+  );
+  console.log();
+
+  console.log(
+    chalk.yellow(
+      "⚠️ Make sure you're in the project root before running the command."
+    )
+  );
+  console.log(
+    chalk.gray("Tip: Run `ls` and make sure package.json is visible.\n")
+  );
 }
 
 export default Init;
