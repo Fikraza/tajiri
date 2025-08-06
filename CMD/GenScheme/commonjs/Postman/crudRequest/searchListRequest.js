@@ -1,5 +1,6 @@
 const header = require("../header");
-const { default: getUrl } = require("./getUrl");
+
+const getUrl = require("./getUrl");
 
 function searchListRequest({ modelName, methods, search }) {
   const item = [];
