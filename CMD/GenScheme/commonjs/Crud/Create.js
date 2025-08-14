@@ -6,6 +6,11 @@ const TransForge = require("./../Utils/Scheme/TransForge");
 
 const prisma = require("../../Prisma");
 
+const {
+  handleAfterPermission,
+  handleBeforePermission,
+} = require("./../Utils/Scheme/Permission");
+
 async function Create(req, res, next) {
   try {
     // code here
@@ -34,6 +39,8 @@ async function Create(req, res, next) {
       throw { custom: true, message: "Model permision ", status: 403 };
     }
 
+    await handleBeforePermission({ req, permission });
+
     const data = genBody({ body, field });
 
     await TransForge({
@@ -47,6 +54,8 @@ async function Create(req, res, next) {
     const doc = await prisma[model].create({
       data: data,
     });
+
+    await handleAfterPermission({ req, permission, data: doc });
 
     return res.status(200).json({ _message: "Created succefully", ...doc });
   } catch (e) {

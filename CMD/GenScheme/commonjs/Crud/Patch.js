@@ -4,6 +4,11 @@ const getModel = require("./../Utils/CLI/getModel");
 
 const TransForge = require("./../Utils/Scheme/TransForge");
 
+const {
+  handleAfterPermission,
+  handleBeforePermission,
+} = require("./../Utils/Scheme/Permission");
+
 async function Patch(req, res, next) {
   try {
     // code here
@@ -38,6 +43,8 @@ async function Patch(req, res, next) {
     if (!allowedMethods?.includes("PATCH")) {
       throw { custom: true, message: "Model Patch Forbiden ", status: 403 };
     }
+
+    await handleBeforePermission({ req, permission });
 
     const transaction = await prisma.$transaction(
       async (tx) => {
@@ -82,17 +89,24 @@ async function Patch(req, res, next) {
           excludeInValidation,
         });
 
+        // uncomment for auto updates
+        if (field.updated_at) {
+          data.updated_at = updated_at;
+        }
+
         const updated = await prisma[model].update({
           where: {
             id,
           },
-          data: { ...data, updated_at },
+          data,
         });
 
         return updated;
       },
       { timeout: 60000000 }
     );
+
+    await handleAfterPermission({ req, permission, data: transaction });
 
     return res.status(201).json({ _message: "Record updated", transaction });
   } catch (e) {

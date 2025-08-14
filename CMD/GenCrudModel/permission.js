@@ -20,17 +20,27 @@ function bf1(req){
 
 
 const permission={
-   allowedMethods:["GET", "POST", "PUT", "PATCH", "DELETE"],
-   beforeOperation:[], // This are before any operation ie [GET,POST,PUT,PATCH,DELETE]
-   afterOperation:[], // This are before any operation ie [GET,POST,PUT,PATCH,DELETE]
-   beforeGet:[bf1], // all your functions for before db change
-   afterGet:[bf1], // all your functions for before db change
-   beforePut:[bf1], // all your functions for before db change
-   afterPut:[bf1], // all your functions for before db change
-   beforePatch:[bf1], // all your functions for before db change
-   afterPatch:[bf1], // all your functions for before db change
-   beforeDelete:[bf1], // all your functions for before db change
-   afterDelete:[bf1], // all your functions for before db change
+  allowedMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+
+  // Runs before any operation
+  beforeOperation: [],
+
+  // Runs before specific operations
+  beforeGet: [bf1],
+  beforePost: [bf1],
+  beforePut: [bf1],
+  beforePatch: [bf1],
+  beforeDelete: [bf1],
+
+  // Runs after any operation
+  afterOperation: [],
+
+  // Runs after specific operations
+  afterGet: [bf1],
+  afterPost: [bf1],
+  afterPut: [bf1],
+  afterPatch: [bf1],
+  afterDelete: [bf1]
  
  }
 

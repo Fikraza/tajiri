@@ -10,6 +10,22 @@ const path = require("path");
 const process = require("process");
 const getNestedValueFromObj = require("./../Utils/General/getNestedValueFromObj");
 
+const {
+  handleAfterPermission,
+  handleBeforePermission,
+} = require("./../Utils/Scheme/Permission");
+
+function escapeCsvValue(value) {
+  if (value == null) return ""; // handle null/undefined
+  let str = String(value);
+
+  // Escape double quotes by doubling them
+  if (/[",\n]/.test(str)) {
+    str = '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
 async function Generate(req, res, next) {
   const rootDir = process.cwd();
   const fileName = `gen-${req?.params?.model || "-"}${Date.now()}.csv`;
@@ -53,6 +69,8 @@ async function Generate(req, res, next) {
     let headString = Array.isArray(head)
       ? head.map((str) => str?.toString()?.replace(/[\r\n,]+/g, "")).join(",")
       : head?.toString()?.replace(/[\r\n,]+/g, "");
+
+    await handleBeforePermission({ req, permission });
 
     const where = {};
     const exclude = ["page", "limit", "order"];
@@ -101,7 +119,7 @@ async function Generate(req, res, next) {
                     });
                     if (typeof val === "undefined") return "-";
                     if (val === null) return "null";
-                    return val.toString();
+                    return escapeCsvValue(val.toString());
                   })
                   .join(",")
               )
@@ -124,6 +142,8 @@ async function Generate(req, res, next) {
       },
       { timeout: 60000000 }
     );
+
+    await handleAfterPermission({ req, permission, data: {} });
 
     await new Promise((resolve, reject) => {
       fileStream.end((err) => {

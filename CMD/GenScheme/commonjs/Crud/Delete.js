@@ -2,6 +2,11 @@ const prisma = require("../../Prisma");
 
 const getModel = require("./../Utils/CLI/getModel");
 
+const {
+  handleAfterPermission,
+  handleBeforePermission,
+} = require("./../Utils/Scheme/Permission");
+
 async function Delete(req, res, next) {
   try {
     // code here
@@ -25,6 +30,8 @@ async function Delete(req, res, next) {
       throw { custom: true, message: "Model permision ", status: 403 };
     }
 
+    await handleBeforePermission({ req, permission });
+
     const transaction = await prisma.$transaction(async (tx) => {
       const record = await prisma[model].findUnique({
         where: { id },
@@ -40,6 +47,8 @@ async function Delete(req, res, next) {
 
       return deleteRecord;
     });
+
+    await handleAfterPermission({ req, permission, data: transaction });
 
     return res.status(200).json({ _message: "Record deleted", transaction });
   } catch (e) {

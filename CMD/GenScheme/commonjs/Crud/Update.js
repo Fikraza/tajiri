@@ -81,6 +81,11 @@ async function Update(req, res, next) {
       excludeInValidation,
     });
 
+    // uncomment for auto updates
+    if (field.updated_at) {
+      data.updated_at = updated_at;
+    }
+
     if (id) {
       data.id = id;
       req.body = data;

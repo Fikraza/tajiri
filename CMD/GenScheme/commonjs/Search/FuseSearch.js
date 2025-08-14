@@ -48,7 +48,7 @@ async function FuseSearch(req, res, next) {
       typeof searchTerm !== "string" ||
       searchTerm?.length < 3
     ) {
-      return res.status(200).json({ docs: [], query: { where } });
+      return res.status(200).json({ docs: [], query: {} });
     }
 
     let pageNumber = 1;

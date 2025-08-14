@@ -2,7 +2,7 @@ require("dotenv").config();
 
 function errorMiddleware(error, req, res, next) {
   try {
-    if (process?.env?.env === "development") {
+    if (process?.env?.ENVIRONMENT === "development") {
       console.log(error);
     }
     if (error?.custom) {

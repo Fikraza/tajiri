@@ -17,6 +17,12 @@ const getCsv = (type) => {
  
  **/
 
+  /**
+   Un comment IF YOU NEED IT.
+   The line below to use escapeCsvValue which evaluates a string and escapes ',' and \n so your csv document is not ruined.  
+   * **/
+  //const escapeCsvValue = require("./../../Utils/Scheme/csv/escapeCsvValue");
+
   const csv={
    head:[],
    data:[]

@@ -131,12 +131,16 @@ async function Init() {
   console.log(chalk.blue("📦 To install the required dependencies, run:"));
   console.log();
   console.log(
-    chalk.cyan("npm install nano multer uuid html-pdf-node fuse.js csv-parser")
+    chalk.cyan(
+      "npm install nano multer uuid html-pdf-node fuse.js csv-parser dotenv"
+    )
   );
   console.log();
   console.log(chalk.gray("Or use yarn if preferred:"));
   console.log(
-    chalk.cyan("yarn add nano multer uuid html-pdf-node fuse.js csv-parser")
+    chalk.cyan(
+      "yarn add nano multer uuid html-pdf-node fuse.js csv-parser dotenv"
+    )
   );
   console.log();
 

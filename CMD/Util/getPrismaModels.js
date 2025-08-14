@@ -107,14 +107,13 @@ async function getPrismaModels() {
           notRequired
             ? (model[pos1].required = false)
             : (model[pos1].required = true);
-          pos3?.includes("unique")
-            ? (model[pos1].validation.unique = true)
-            : null;
 
           continue;
         }
 
-        include[pos1] = true;
+        if (!pos1.includes("@") && pos1?.trim() !== "") {
+          include[pos1] = true;
+        }
 
         let relations = parseRelation(line, modelName);
 

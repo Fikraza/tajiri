@@ -13,6 +13,7 @@ function UpdateEnv() {
     "BEARER",
     "COUCHDBURL",
     "TAJIRIBASEURL",
+    "ENVIRONMENT",
   ];
 
   let envContent = "";
