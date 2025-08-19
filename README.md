@@ -3,7 +3,7 @@
 If you find **Tajiri CLI** useful and would like to support its ongoing development, consider sponsoring the project.  
 Your contribution helps keep this project maintained and growing.  
 
-[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=PXFYLD3FVTPFS)
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue?logo=paypal)]([https://www.paypal.com/donate/?hosted_button_id=PXFYLD3FVTPFS](https://www.paypal.com/donate/?hosted_button_id=244NK5AWBKPFN))
 
 ---
 
