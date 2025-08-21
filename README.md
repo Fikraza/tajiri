@@ -30,7 +30,7 @@ Built with Node.js and designed to speed up your development workflow.
 
 ## 📦 Installation
 
-Clone this repo and link it locally (or publish it via npm/yarn):
+Clone this repo  locally :
 
 ```bash
 git clone https://github.com/yourname/tajiri.git
