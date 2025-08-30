@@ -8,6 +8,7 @@ import testmodel from "./CMD/Util/getPrismaModels.js";
 
 import GenCrudModel from "./CMD/GenCrudModel/index.js";
 import GenMiddleWare from "./CMD/GenMiddleWare/index.js";
+import GenFolderStructure from "./CMD/GenFolderStructure/index.js";
 import GenBase from "./CMD/GenOther/index.js";
 import GenRoutes from "./CMD/GenRoutes/index.js";
 import GenScheme from "./CMD/GenScheme/index.js";
@@ -17,6 +18,12 @@ import genCrudModels from "./CMD/GenCrudModel/index.js";
 
 if (args[0]?.toLowerCase() === "init") {
   init();
+} else if (
+  args[0]?.toLocaleUpperCase() === "generate" &&
+  args[0]?.toLocaleUpperCase() === "folder" &&
+  args[0]?.toLocaleUpperCase() === "structure"
+) {
+  GenFolderStructure();
 } else if (
   args[0]?.toLowerCase() === "generate" &&
   args[1]?.toLowerCase() === "crud"
