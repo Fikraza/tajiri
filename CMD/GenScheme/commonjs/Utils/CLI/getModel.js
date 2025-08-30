@@ -23,7 +23,7 @@ function getModel(model) {
     }
 
     let modeDoc = {};
-    let finalPath = "member";
+    let finalPath = model;
 
     if (config?.structure) {
       const arrSt = structureArray(config?.structure);
